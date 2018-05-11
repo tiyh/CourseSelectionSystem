@@ -35,7 +35,7 @@ public class StudentControllerTest {
     @Test
     public void testSave() throws Exception {
     	Student student = new Student();
-        student.setName("test"+111);
+        student.setUsername("test"+111);
         student.setDepartment("test"+111);
         student.setGrade(1);
         String requestJson = JSONObject.toJSONString(student);
@@ -49,7 +49,7 @@ public class StudentControllerTest {
 		for(int i=0;i<10; i++){
 			Student student = new Student();
             student.setId(i);
-            student.setName("test"+i);
+            student.setUsername("test"+i);
             student.setDepartment("test"+i);
             student.setGrade(i);
             returnList.add(student);
@@ -64,7 +64,7 @@ public class StudentControllerTest {
     public void testGetStudentById() throws Exception {
 			Student student = new Student();
             student.setId(1);
-            student.setName("test"+1);
+            student.setUsername("test"+1);
             student.setDepartment("test"+1);
             student.setGrade(1);
         given(this.studentService.getStudentById(1))

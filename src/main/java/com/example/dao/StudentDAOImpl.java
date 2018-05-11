@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.model.Course;
 import com.example.model.Student;
 
 @Repository
@@ -20,9 +22,10 @@ public class StudentDAOImpl implements StudentDAO{
 
 	@Transactional
 	@Override
-	public void addStudent(Student p) {
+	public Student addStudent(Student p) {
 		entityManager.persist(p);
 		logger.info("Student saved successfully, Student Details="+p);
+		return p;
 	}
 	@Transactional
 	@Override
@@ -62,6 +65,19 @@ public class StudentDAOImpl implements StudentDAO{
 		Student p = entityManager.find(Student.class, id);
 		logger.info("Student loaded successfully, Student details="+p);
 		return p;
+	}
+	@Transactional
+	@Override
+	public Student getStudentByUsername(String name){
+        String hql = "select id from Student student where student.username =:name";
+        Query query = (Query) entityManager.createQuery(hql);
+        query.setParameter("name", name);
+        List id = query.getResultList();
+        if (id.size()!=0) {
+		Student p = entityManager.find(Student.class, id.get(0));
+		logger.info("Student loaded successfully, Student details="+p);
+		return p;
+		}else return null;
 	}
 	@Transactional
 	@Override

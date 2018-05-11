@@ -50,7 +50,7 @@ public class Course {
             return false;
         }
 
-        Student s = (Student) obj;
+        Course s = (Course) obj;
 
         return s.getId()==this.id &&
                 s.getName().equals(this.name);
