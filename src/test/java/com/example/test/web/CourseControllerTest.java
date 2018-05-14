@@ -1,34 +1,52 @@
-package com.example.web;
+package com.example.test.web;
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.test.autoconfigure.web.servlet.*;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.*;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.example.CourseSelectionSystem;
 import com.example.model.Course;
 import com.example.service.CourseService;
-import com.example.web.CourseController;
+
 import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import com.alibaba.fastjson.JSONObject;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.Filter;
+
 
     @RunWith(SpringRunner.class)
-    @WebMvcTest(CourseController.class)
+    @SpringBootTest(classes=CourseSelectionSystem.class)
     public class CourseControllerTest {
         @Autowired
+        private WebApplicationContext context;
+        @Autowired
+        private Filter springSecurityFilterChain;
         private MockMvc mvc;
         @MockBean
         private CourseService courseService;
-
+        private static final String USERNAME ="tiyunheng";
+        private static final String PASSWORD ="123456";
+        @Before  
+        public void setup() throws Exception {
+            //initData();  
+        	mvc = MockMvcBuilders.webAppContextSetup(context)  
+                    .defaultRequest(get("/").with(user(USERNAME).password(PASSWORD)  
+                            .authorities(new SimpleGrantedAuthority("ROLE_USER")))) 
+                    .addFilters(springSecurityFilterChain)
+                    .build();  
+        }  
         @Test
         public void testSave() throws Exception {
             Course course = new Course();
