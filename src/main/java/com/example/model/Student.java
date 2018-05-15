@@ -135,10 +135,11 @@ public class Student implements UserDetails{
     }
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+	@JsonIgnore
+	public ArrayList<SimpleGrantedAuthority> getAuthorities() {
+		ArrayList<SimpleGrantedAuthority> auths = new ArrayList<SimpleGrantedAuthority>();
 		String roles = this.getRoles();
-        auths.add(new SimpleGrantedAuthority(roles));
+        auths.add(new SimpleGrantedAuthority("ROLE_"+roles));
         return auths;
 	}
 

@@ -61,8 +61,8 @@ public class StudentControllerTest {
                 .andExpect(status().isOk()).andExpect(content().string("Hello course selection!"));
     }
     
-    //@Test
-    //todo com.fasterxml.jackson.databind.JsonMappingException: A granted authority textual representation is required
+    @Test
+    //com.fasterxml.jackson.databind.JsonMappingException: A granted authority textual representation is required
     public void testSave()throws Exception{
     	/*with(authentication(SecurityContextHolder.getContext().getAuthentication())).*/
     	Student student = new Student();
@@ -71,14 +71,11 @@ public class StudentControllerTest {
         student.setDepartment("test");
         student.setGrade(1);
         student.setRoles(UserRole.USER);
-        logger.info("tiyh:here");
         student.setLastPasswordResetDate(new Date());
         //given(this.studentService.addStudent(student))
         //.willReturn(student);
-        logger.info("tiyh:student:"+student.toString());
-        logger.info("tiyh:student.getAuthorities():"+student.getAuthorities());
         String requestJson = JSONObject.toJSONString(student);
-        logger.info("tiyh:requestJson:"+requestJson);
+        logger.info("requestJson:"+requestJson);
         this.mvc.perform(post("/student",student).contentType(MediaType.APPLICATION_JSON).content(requestJson))
                         .andExpect(status().isOk());
     }
