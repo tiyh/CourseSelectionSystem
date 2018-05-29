@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.model.Student;
 
 public interface StudentService {
@@ -11,5 +12,5 @@ public interface StudentService {
 	public Student getStudentById(int id);
 	public void removeStudent(int id);
 	public String refresh(String oldToken);
-	public String login(String username, String password);
+	public JSONObject login(String username, String password);
 }

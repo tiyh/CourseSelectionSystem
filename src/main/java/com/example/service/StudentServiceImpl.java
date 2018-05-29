@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
 import com.example.dao.StudentDAO;
 import com.example.model.Student;
 import com.example.model.UserRole;
@@ -101,7 +103,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public String login(String username, String password) {
+    public JSONObject login(String username, String password) {
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(upToken);
@@ -109,7 +111,10 @@ public class StudentServiceImpl implements StudentService{
         // Reload password post-security so we can generate token
         final Student student = (Student) customUserService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(student);
-        return token;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user_id",student.getId());
+        jsonObject.put("token", token);
+        return jsonObject;
     }
 
 }

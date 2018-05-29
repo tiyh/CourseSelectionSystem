@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.example.dao.StudentDAOImpl;
 import com.example.exception.StudentNotFoundException;
 import com.example.model.Student;
@@ -46,10 +46,9 @@ public class StudentController {
             String username,String password
     ) throws AuthenticationException{
         //  @RequestBody JwtAuthenticationRequest authenticationRequest
-        final String token = studentService.login(username,password);
-
-        // Return the token
-        return ResponseEntity.ok(token);
+        final JSONObject studentJson = studentService.login(username,password);
+        return ResponseEntity.ok(studentJson);
+        //return ResponseEntity.ok(JSON.toJSONString(token));
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -60,7 +59,8 @@ public class StudentController {
         if(refreshedToken == null) {
             return ResponseEntity.badRequest().body(null);
         } else {
-            return ResponseEntity.ok(refreshedToken);
+            logger.info("call /login return refreshedToken:"+refreshedToken);
+            return ResponseEntity.ok(JSON.toJSONString(refreshedToken));
         }
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
