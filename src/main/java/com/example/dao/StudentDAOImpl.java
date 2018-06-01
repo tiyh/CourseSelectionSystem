@@ -8,9 +8,7 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.model.Course;
 import com.example.model.Student;
 
 @Repository
@@ -20,22 +18,20 @@ public class StudentDAOImpl implements StudentDAO{
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Transactional
 	@Override
 	public Student addStudent(Student p) {
 		entityManager.persist(p);
 		logger.info("Student saved successfully, Student Details="+p);
 		return p;
 	}
-	@Transactional
+
 	@Override
 	public void updateStudent(Student p) {
 		Student student = entityManager.find(Student.class, p.getId());
 		entityManager.merge(student);
 		logger.info("Student updated successfully, Student Details="+p);
 	}
-	@Transactional
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public List<Student> listStudents() {
 		Query query = (Query) entityManager.createQuery("select student from Student student");
@@ -58,7 +54,7 @@ public class StudentDAOImpl implements StudentDAO{
 		}
 		return returnList;
 	}
-	@Transactional
+
 	@Override
 	public Student getStudentById(int id) {
 		
@@ -66,7 +62,7 @@ public class StudentDAOImpl implements StudentDAO{
 		logger.info("Student loaded successfully, Student details="+p);
 		return p;
 	}
-	@Transactional
+
 	@Override
 	public Student getStudentByUsername(String name){
         String hql = "select id from Student student where student.username =:name";
@@ -79,7 +75,6 @@ public class StudentDAOImpl implements StudentDAO{
 		return p;
 		}else return null;
 	}
-	@Transactional
 	@Override
 	public void removeStudent(int id) {
 		Student student = entityManager.find(Student.class, id);

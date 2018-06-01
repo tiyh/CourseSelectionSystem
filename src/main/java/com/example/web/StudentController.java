@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.dao.StudentDAOImpl;
 import com.example.exception.StudentNotFoundException;
 import com.example.model.Student;
+import com.example.model.UserRole;
 import com.example.service.StudentService;
 
 @RestController
@@ -80,6 +81,18 @@ public class StudentController {
 	@RequestMapping(value= "/student", method = RequestMethod.POST)
 	public Student register(@RequestBody Student jsonString) throws AuthenticationException{
 		logger.info("post debug:Student="+jsonString);
+		/*for(int i=0;i<500;i++) {
+			Student student = new Student();
+			student.setGrade(i);
+			student.setUsername(jsonString.getUsername()+i);
+			student.setDepartment(String.valueOf(i));
+			student.setPassword("123456");
+			student.setRoles(UserRole.USER);
+			studentService.addStudent(student);
+		}
+		return jsonString;
+		//build test database
+		*/
 		return studentService.addStudent(jsonString);
 	}
 

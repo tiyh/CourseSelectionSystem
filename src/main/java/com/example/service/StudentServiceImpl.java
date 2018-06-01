@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.dao.StudentDAO;
@@ -42,7 +43,7 @@ public class StudentServiceImpl implements StudentService{
 	public void setStudentDAO(StudentDAO studentDAO) {
 		this.studentDAO = studentDAO;
 	}
-
+    @Transactional
 	@Override
 	@Caching(cacheable=@Cacheable(value = "studentcache", keyGenerator = "wiselyKeyGenerator"),evict = @CacheEvict(value = "liststudentcache", allEntries = true))
 	public Student addStudent(Student p) {
@@ -63,26 +64,25 @@ public class StudentServiceImpl implements StudentService{
 		p.setRoles(UserRole.USER);
 		return this.studentDAO.addStudent(p);
 	}
-
+    @Transactional
 	@Override
 	@Caching(put = @CachePut("studentcache"), evict = @CacheEvict(value = "liststudentcache", allEntries = true))
-	
 	public void updateStudent(Student p) {
 		this.studentDAO.updateStudent(p);
 	}
-
+    @Transactional
 	@Override
 	@Cacheable(value = "liststudentcache",keyGenerator = "wiselyKeyGenerator")
 	public List<Student> listStudents() {
 		return this.studentDAO.listStudents();
 	}
-
+    @Transactional
 	@Override
 	@Cacheable(value = "studentcache", keyGenerator = "wiselyKeyGenerator")
 	public Student getStudentById(int id) {
 		return this.studentDAO.getStudentById(id);
 	}
-
+    @Transactional
 	@Override
 	@Caching(evict = { @CacheEvict("studentcache"),@CacheEvict(value = "liststudentcache", allEntries = true) })
 	public void removeStudent(int id) {

@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Selection;
 import com.example.model.Student;
@@ -21,24 +20,28 @@ public class SelectionDAOImpl implements SelectionDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	@Transactional
 	@Override
-	public void selectCourse(int studentId, int courseId) {
+	public boolean selectCourse(int studentId, int courseId) {
         Course course =entityManager.find(Course.class,courseId);
+        if(course==null) return false;
         int orderedNum = course.getOrderedNum();
         orderedNum = orderedNum + 1;
         course.setOrderedNum(orderedNum);
         entityManager.merge(course); 
         Student student = entityManager.find(Student.class,studentId);
+        if(student==null) return false;
         Selection selection = new Selection();
+        try {
         selection.setStudentNum(student.getId());
         selection.setCourseNum(course.getId());
         entityManager.persist(selection);
+        }catch(Exception e) {
+        	e.printStackTrace();
+        	return false;
+        }
+        return true;
 	}
 	
-	
-	@Transactional
 	@Override
 	public void deleteSelectedCourse(int selectionId) {
 		Selection selection = entityManager.find(Selection.class, selectionId);
@@ -48,8 +51,6 @@ public class SelectionDAOImpl implements SelectionDAO {
 		}
 		
 	}
-
-	@Transactional
 	@Override
 	public List<Course> getOrderedCourse(int studentId) {
 		    List<Course> studentCourseList = new ArrayList<Course>();
@@ -59,10 +60,10 @@ public class SelectionDAOImpl implements SelectionDAO {
 	        studentCourseList = query.getResultList();
 	        return studentCourseList;
 	}
-	@Transactional
 	@Override
 	public boolean courseOrderable(int courseId,int studentId){
 		Course course =entityManager.find(Course.class,courseId);
+		if(course==null) return false;
         if(course.getOrderedNum()<course.getCapacity()){
     		String hql = "select id from Selection selection where selection.course =:courseId and selection.student =:studentId";
             Query query = (Query) entityManager.createQuery(hql);

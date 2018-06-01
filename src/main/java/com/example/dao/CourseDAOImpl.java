@@ -19,21 +19,17 @@ public class CourseDAOImpl implements CourseDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Transactional
 	@Override
 	public void addCourse(Course p) {
 		entityManager.persist(p);
 		logger.info("Course saved successfully, Course Details="+p);
 	}
-	@Transactional
 	@Override
 	public void updateCourse(Course p) {
 		Course course = entityManager.find(Course.class, p.getId());
 		entityManager.merge(course);
 		logger.info("Course updated successfully, Course Details="+course);
 	}
-	@Transactional
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Course> listCourses() {
 		
@@ -57,14 +53,12 @@ public class CourseDAOImpl implements CourseDAO {
 		}
 		return returnList;
 	}
-	@Transactional
 	@Override
 	public Course getCourseById(int id) {
 		Course course = entityManager.find(Course.class, id);
 		logger.info("Course loaded successfully, Course details="+course);
 		return course;
 	}
-	@Transactional
 	@Override
 	public void removeCourse(int id) {
 		Course course = entityManager.find(Course.class, id);
