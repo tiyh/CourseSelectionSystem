@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.springframework.data.elasticsearch.annotations.Document;
 @Entity
 @Table(name = "course", catalog = "")
+@Document(indexName = "course",type = "course",shards = 1, replicas = 0)
 public class Course {
     @Id
     @Column(name = "id", nullable = false)
