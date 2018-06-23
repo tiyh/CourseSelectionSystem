@@ -5,8 +5,10 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository;
 
 import com.example.model.Course;
+import com.example.model.SearchCourse;
 
 @Repository
-public interface CourseSearchDAO extends ElasticsearchRepository<Course,Long>{
-    Page<Course> findByNameLike(String name,Pageable pageable);
+public interface CourseSearchDAO extends ElasticsearchRepository<SearchCourse,Integer>{
+    Page<SearchCourse> findByNameLike(String name,Pageable pageable);
 }
+

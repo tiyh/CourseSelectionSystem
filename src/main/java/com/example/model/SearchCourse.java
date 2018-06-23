@@ -1,5 +1,6 @@
 package com.example.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,21 +10,15 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-@Entity
-@Table(name = "course", catalog = "")
+
 @Document(indexName = "course",type = "course",shards = 1, replicas = 0)
-public class Course {
+public class SearchCourse {
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue
     private int id;
     
     @Field(type= FieldType.Nested)
-    @Column(name = "name", nullable = false)
     private String name = "";
-    @Column(name = "capacity", nullable = false)
     private int capacity = 0;
-    @Column(name = "orderednum", nullable = false)
     private int orderedNum = 0;
 
     public int getId() {
@@ -56,7 +51,7 @@ public class Course {
             return false;
         }
 
-        Course s = (Course) obj;
+        SearchCourse s = (SearchCourse) obj;
 
         return s.getId()==this.id &&
                 s.getName().equals(this.name);
