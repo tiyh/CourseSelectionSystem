@@ -21,7 +21,7 @@ public class CourseSearchServiceImpl implements CourseSearchService {
 
     @Override
     public Page<SearchCourse> findByCourseName(String name, Pageable pageable) {
-        return courseSearchDAO.findByCourseNameLike(name,pageable);
+        return courseSearchDAO.findBySubjectLike(name,pageable);
     }
 
     @Override

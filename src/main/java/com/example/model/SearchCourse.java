@@ -9,9 +9,9 @@ public class SearchCourse {
     @Id
     private int id;
     
-    private String courseName = "";
+    private String subject = "";
     private int capacity = 0;
-    private int orderedNum = 0;
+    private int ordered = 0;
 
     public int getId() {
         return id;
@@ -21,21 +21,21 @@ public class SearchCourse {
         this.id = id;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setCourseName(@NotNull String name) {
-        this.courseName = name;
+    public void setSubject(@NotNull String name) {
+        this.subject = name;
     }
 
     public int getCapacity() { return capacity; }
 
     public void setCapacity(int capacity) { this.capacity = capacity; }
 
-    public int getOrderedNum() { return orderedNum; }
+    public int getOrdered() { return ordered; }
 
-    public void setOrderedNum(int orderedNum) { this.orderedNum = orderedNum; }
+    public void setOrderedNum(int orderedNum) { this.ordered = orderedNum; }
     
     @Override
     public boolean equals(Object obj) {
@@ -46,15 +46,15 @@ public class SearchCourse {
         SearchCourse s = (SearchCourse) obj;
 
         return s.getId()==this.id &&
-                s.getCourseName().equals(this.courseName);
+                s.getSubject().equals(this.subject);
     }
 
     @Override
     public String toString() {
         return "{\"id\":" + this.id +
-                ",\"name\": " + this.courseName +
+                ",\"subject\": " + this.subject +
                 ",\"capacity\": " + this.capacity +
-                ",\"orderedNum\": " + this.orderedNum +
+                ",\"ordered\": " + this.ordered +
                 "}";
     }
 }

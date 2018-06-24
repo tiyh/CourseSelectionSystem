@@ -8,6 +8,6 @@ import com.example.model.SearchCourse;
 
 @Repository
 public interface CourseSearchDAO extends ElasticsearchRepository<SearchCourse,Integer>{
-    Page<SearchCourse> findByCourseNameLike(String name,Pageable pageable);
+    Page<SearchCourse> findBySubjectLike(String name,Pageable pageable);
 }
 

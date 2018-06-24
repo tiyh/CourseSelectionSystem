@@ -13,9 +13,9 @@ create table student (
 
 create table course (
   id integer auto_increment primary key,
-  name varchar(100) not null,
+  subject varchar(100) not null,
   capacity integer not null,
-  orderednum integer not null
+  ordered integer not null
 );
 
 create table selection (

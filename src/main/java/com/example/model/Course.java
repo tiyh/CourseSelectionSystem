@@ -16,11 +16,11 @@ public class Course {
     @GeneratedValue
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "subject", nullable = false)
     private String name = "";
     @Column(name = "capacity", nullable = false)
     private int capacity = 0;
-    @Column(name = "orderednum", nullable = false)
+    @Column(name = "ordered", nullable = false)
     private int orderedNum = 0;
 
     public int getId() {
