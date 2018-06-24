@@ -6,19 +6,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+
 @Entity
 @Table(name = "course", catalog = "")
-@Document(indexName = "course",type = "course",shards = 1, replicas = 0)
+//@Document(indexName = "course",type = "course",shards = 1, replicas = 0)
 public class Course {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue
     private int id;
-    
-    @Field(type= FieldType.Nested)
+
     @Column(name = "name", nullable = false)
     private String name = "";
     @Column(name = "capacity", nullable = false)

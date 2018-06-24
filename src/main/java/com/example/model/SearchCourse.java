@@ -1,23 +1,15 @@
 package com.example.model;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "course",type = "course",shards = 1, replicas = 0)
+@Document(indexName = "selectionsystem",type = "searchcourse",shards = 1, replicas = 0)
 public class SearchCourse {
     @Id
     private int id;
     
-    @Field(type= FieldType.Nested)
-    private String name = "";
+    private String courseName = "";
     private int capacity = 0;
     private int orderedNum = 0;
 
@@ -29,12 +21,12 @@ public class SearchCourse {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setName(@NotNull String name) {
-        this.name = name;
+    public void setCourseName(@NotNull String name) {
+        this.courseName = name;
     }
 
     public int getCapacity() { return capacity; }
@@ -54,13 +46,13 @@ public class SearchCourse {
         SearchCourse s = (SearchCourse) obj;
 
         return s.getId()==this.id &&
-                s.getName().equals(this.name);
+                s.getCourseName().equals(this.courseName);
     }
 
     @Override
     public String toString() {
         return "{\"id\":" + this.id +
-                ",\"name\": " + this.name +
+                ",\"name\": " + this.courseName +
                 ",\"capacity\": " + this.capacity +
                 ",\"orderedNum\": " + this.orderedNum +
                 "}";

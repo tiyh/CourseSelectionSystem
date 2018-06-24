@@ -18,7 +18,6 @@ import com.example.dao.CourseDAOImpl;
 
 @Configuration
 @PropertySource(value = "classpath:elasticsearch.properties")
-@EnableElasticsearchRepositories
 public class ElasticSearchConfig {
     @Value("${spring.elasticsearch.host}")  
     private String host;  
@@ -27,7 +26,7 @@ public class ElasticSearchConfig {
 	private static final Logger logger = LoggerFactory.getLogger(CourseDAOImpl.class);
 	@Bean
 	public TransportClient TransportClient(){
-	    Settings settings = Settings.builder()  
+	    Settings settings = Settings.builder()
 	            .put("cluster.name", "my-application").build();
         TransportClient client = null;
         try {

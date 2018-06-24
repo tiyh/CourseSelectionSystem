@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.model.Course;
 import com.example.model.SearchCourse;
 import com.example.service.CourseSearchService;
 
@@ -37,7 +36,7 @@ public class SearchController {
                          @RequestParam(value="pageIndex",required=false,defaultValue="0") int pageIndex,
                          @RequestParam(value="pageSize",required=false,defaultValue="10") int pageSize) {
         Pageable pageable = new PageRequest(pageIndex,pageSize);
-        Page<SearchCourse> courses = courseSearchService.findByName(name,pageable);
+        Page<SearchCourse> courses = courseSearchService.findByCourseName(name,pageable);
         List<SearchCourse> list = courses.getContent();
         return list;
     }

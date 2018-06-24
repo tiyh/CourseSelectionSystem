@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.CourseSearchDAO;
-import com.example.model.Course;
 import com.example.model.SearchCourse;
 @Service
 public class CourseSearchServiceImpl implements CourseSearchService {
@@ -21,8 +20,8 @@ public class CourseSearchServiceImpl implements CourseSearchService {
     }
 
     @Override
-    public Page<SearchCourse> findByName(String name, Pageable pageable) {
-        return courseSearchDAO.findByNameLike(name,pageable);
+    public Page<SearchCourse> findByCourseName(String name, Pageable pageable) {
+        return courseSearchDAO.findByCourseNameLike(name,pageable);
     }
 
     @Override

@@ -29,8 +29,6 @@ public class CourseController {
 
 	@RequestMapping(value = "/course/{CourseId}", method = RequestMethod.GET)
 	public Course getCourseById(@PathVariable() Integer CourseId) {
-
-		System.out.println(CourseId);
 		return CourseService.getCourseById(CourseId);
 	}
 

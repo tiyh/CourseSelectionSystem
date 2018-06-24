@@ -8,6 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface CourseSearchService {
 	void save (SearchCourse course);
-	Page<SearchCourse> findByName(String name,Pageable pageable);
+	Page<SearchCourse> findByCourseName(String name,Pageable pageable);
 	Page<SearchCourse> findAll(Pageable pageable);
 }
