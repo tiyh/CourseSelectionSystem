@@ -3,12 +3,15 @@ package com.example.model;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
 
 @Document(indexName = "selectionsystem",type = "searchcourse",shards = 1, replicas = 0)
 public class SearchCourse {
     @Id
     private int id;
-    
+    @Field(index=FieldIndex.analyzed,searchAnalyzer="ik",analyzer="ik",store=true)
+    //do not use type=FieldType.String
     private String subject = "";
     private int capacity = 0;
     private int ordered = 0;
