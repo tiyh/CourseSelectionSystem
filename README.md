@@ -1,4 +1,4 @@
-##简介
+## 简介
 基于SpringBoot+SpringMVC+Druid+Hibernate的简单选课系统  
 基于Spring Security+JWT 实现 RESTful API 权限控制  
 基于Elasticsearch实现简单全文课程搜索　　
@@ -8,7 +8,7 @@
  SpringBoot+SpringMVC+druid+Hibernate+Redis+SpringSecurity+JWT 
 ## 编译运行　　
 mvn springboot:run
-###MySQL&Redis配置：  
+### MySQL&Redis配置：  
 src/main/resources/application.properties  
 spring.datasource.url  
 spring.datasource.username  
@@ -38,7 +38,7 @@ vim  Gemfile.jruby-1.9.lock
 
 * 安装ik分词器:  
 >下载ik分词器解压到elasticsearch/plugins/ik 
-https://github.com/medcl/elasticsearch-analysis-ik
+https://github.com/medcl/elasticsearch-analysis-ik  
 在线测试分词器：
 http://127.0.0.1:9200/_analyze?analyzer=ik&pretty=true&text=sojson在线工具  
 
@@ -47,7 +47,7 @@ http://127.0.0.1:9200/_analyze?analyzer=ik&pretty=true&text=sojson在线工具
 或者使用后台方式进行启动./bin/elasticsearch -d -Des.insecure.allow.root=true   
 
 * 启动 logstash:  
->bin/logstash -f xxx.conf
+>bin/logstash -f xxx.conf  
 查看　elsatic logstash head
 http://localhost:9200/_plugin/head/
 
