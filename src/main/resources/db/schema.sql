@@ -21,7 +21,5 @@ create table course (
 create table selection (
   id integer auto_increment primary key,
   student integer,
-  course integer,
-  foreign key (student) references student(id),
-  foreign key (course) references course(id)
+  course integer
 );

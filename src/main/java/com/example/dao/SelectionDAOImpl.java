@@ -35,6 +35,7 @@ public class SelectionDAOImpl implements SelectionDAO {
         selection.setStudentNum(student.getId());
         selection.setCourseNum(course.getId());
         entityManager.persist(selection);
+        entityManager.persist(course);
         }catch(Exception e) {
         	e.printStackTrace();
         	return false;
@@ -46,7 +47,10 @@ public class SelectionDAOImpl implements SelectionDAO {
 	public void deleteSelectedCourse(int selectionId) {
 		Selection selection = entityManager.find(Selection.class, selectionId);
 		if(null != selection){
+	        Course course =entityManager.find(Course.class,selection.getCourseNum());
+	        course.setOrderedNum(course.getOrderedNum()-1);
 			entityManager.remove(selection);
+			entityManager.persist(course);
 			logger.info("Student deleted successfully, student details="+selection);
 		}
 		
