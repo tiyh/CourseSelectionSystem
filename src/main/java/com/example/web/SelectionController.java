@@ -28,7 +28,7 @@ public class SelectionController {
 	}
 	
 	@RequestMapping(value = "/students/{StudentId}/selections/{CourseId}", method = RequestMethod.GET)
-	public  synchronized boolean selectCourse(@PathVariable int StudentId,@PathVariable int CourseId) {
+	public boolean selectCourse(@PathVariable int StudentId,@PathVariable int CourseId) {
 		return selectionService.selectCourse(StudentId,CourseId);
 	}
 	@RequestMapping(value = "/students/selections/{selectionId}", method = RequestMethod.DELETE)

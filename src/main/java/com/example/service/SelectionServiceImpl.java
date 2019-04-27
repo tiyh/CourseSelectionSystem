@@ -10,25 +10,37 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import com.example.model.Course;
+import com.alibaba.fastjson.JSONObject;
 import com.example.dao.SelectionDAO;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.kafka.core.KafkaTemplate;
+
 @Service
 public class SelectionServiceImpl implements SelectionService{
 	private SelectionDAO SelectionDAO;
 	private static final Logger logger = LoggerFactory.getLogger(SelectionServiceImpl.class);
     @Autowired
+    private KafkaTemplate<?, String> kafkaTemplate;
+	public static final String TOPIC = "select"; 
+    @Autowired
 	public void setSelectionDAO(SelectionDAO SelectionDAO) {
 		this.SelectionDAO = SelectionDAO;
 	}
-    @Transactional
+    
 	@Override
-	@Caching(cacheable=@Cacheable(value = "selectioncache", keyGenerator = "wiselyKeyGenerator"),evict ={@CacheEvict(value = "orderablecache", allEntries = true),@CacheEvict(value = "selectionlistcache", allEntries = true) })
+	@Caching(evict ={@CacheEvict(value = "orderablecache", allEntries = true),@CacheEvict(value = "selectionlistcache", allEntries = true) })
 	public /*synchronized
 	*AOP Transactional make synchronized not work
 	*/ boolean selectCourse(int studentId, int courseId) {
+
 		if(courseOrderable(courseId,studentId)){
-			logger.info("Student:"+ studentId +" has selected courseId:"+courseId);
-			return this.SelectionDAO.selectCourse(studentId, courseId);
+			logger.info("Student:"+ studentId +" has send to mq courseId:"+courseId);
+	    	JSONObject selectJson = new JSONObject();
+	    	selectJson.put("studentId", studentId);
+	    	selectJson.put("courseId", courseId);
+	    	kafkaTemplate.send(TOPIC,selectJson.toJSONString());
+			//return this.SelectionDAO.selectCourse(studentId, courseId);
+	    	return true;
 		}
 		else{
 			return false;
