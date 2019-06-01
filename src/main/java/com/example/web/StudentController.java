@@ -64,6 +64,15 @@ public class StudentController {
             return ResponseEntity.ok(JSON.toJSONString(refreshedToken));
         }
     }
+    
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<?> logout(
+            HttpServletRequest request) throws AuthenticationException{
+        String token = request.getHeader(tokenHeader);
+        studentService.logout(token);
+        return ResponseEntity.ok(JSON.toJSONString(token));
+    }
+    
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value = "/students", method = RequestMethod.GET)
 	public List<?> getStudentsInJSON() {

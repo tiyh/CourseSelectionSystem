@@ -24,6 +24,7 @@ import com.example.dao.StudentDAO;
 import com.example.model.Student;
 import com.example.model.UserRole;
 import com.example.util.JwtTokenUtil;
+import com.example.util.RedisUtil;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -35,6 +36,8 @@ public class StudentServiceImpl implements StudentService{
     private AuthenticationManager authenticationManager;
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private RedisUtil redisUtil;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
@@ -93,11 +96,18 @@ public class StudentServiceImpl implements StudentService{
     public String refresh(String oldToken) {
         if(oldToken==null) return null;
         final String token = oldToken.substring(tokenHead.length());
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        Student user = (Student) customUserService.loadUserByUsername(username);
+        //String username = jwtTokenUtil.getUsernameFromToken(token);
+        Student user = (Student) redisUtil.get(token);
+        //if(user==null) {
+        //	user = (Student) customUserService.loadUserByUsername(username);
+        //}
         if(user==null) return null;
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())){
-            return jwtTokenUtil.refreshToken(token);
+            String newToken = jwtTokenUtil.refreshToken(token);
+            redisUtil.del(token);
+            redisUtil.set(newToken, user, 120);
+            return newToken;
+            
         }
         return null;
     }
@@ -111,10 +121,18 @@ public class StudentServiceImpl implements StudentService{
         // Reload password post-security so we can generate token
         final Student student = (Student) customUserService.loadUserByUsername(username);
         final String token = jwtTokenUtil.generateToken(student);
+        //redisUtil.set(token, student);
+        redisUtil.set(token, student);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user_id",student.getId());
         jsonObject.put("token", token);
         return jsonObject;
     }
-
+    
+    public void logout(String oldToken) {
+        if(oldToken!=null){
+        	final String token = oldToken.substring(tokenHead.length());
+        	redisUtil.del(token);
+        }
+    }
 }

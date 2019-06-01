@@ -13,4 +13,5 @@ public interface StudentService {
 	public void removeStudent(int id);
 	public String refresh(String oldToken);
 	public JSONObject login(String username, String password);
+	public void logout(String oldToken);
 }

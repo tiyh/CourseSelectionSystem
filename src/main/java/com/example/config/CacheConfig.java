@@ -13,6 +13,8 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -70,6 +72,9 @@ public class CacheConfig extends CachingConfigurerSupport {
 
     RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
     template.setConnectionFactory(factory);
+    RedisSerializer<String> stringSerializer = new StringRedisSerializer();
+    template.setKeySerializer(stringSerializer);
+    template.setHashKeySerializer(stringSerializer);
 	return template; 
 	} 
 	private void setSerializer(StringRedisTemplate template) { 
